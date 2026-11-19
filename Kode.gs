@@ -51,7 +51,8 @@ function getDashboardData() {
     score: headers.indexOf("Final Score"), 
     status: headers.indexOf("Status"), 
     reward: headers.indexOf("Reward"), 
-    judul: headers.indexOf("Judul")    
+    judul: headers.indexOf("Judul"),
+    id: headers.indexOf("ID") //    
   };
 
   // --- SIHIR PENCARI KOLOM OTOMATIS (ANTI TYPO) ---
@@ -151,7 +152,8 @@ function getDashboardData() {
       reward: parseFloat(rawReward) || 0,
       status: st,
       kategori: rawCatName || "Lainnya",
-      score: parseFloat(rawScoreList) || 0   
+      score: parseFloat(rawScoreList) || 0,
+      id: row[colIdx.id] || ""   
     });
 
     // 4. KUNCI AMAN LEADERBOARD: HANYA dihitung kalau SELESAI

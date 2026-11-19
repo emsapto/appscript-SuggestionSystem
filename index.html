@@ -1237,24 +1237,32 @@
                let nilaiSkor = s.score || 0;
                let scoreTxt = (isSelesai && nilaiSkor > 0) ? `<strong style="color:#fbbf24;">⭐ ${nilaiSkor} Skor</strong>` : `<span style="color:#71717a; font-size:0.75rem;">Menunggu</span>`;
                
-               html += `
-               <div class="list-item animate-fade-up" style="background: rgba(0,0,0,0.3); border: 1px solid #3f3f46; margin-bottom: 8px; padding: 10px; border-radius: 10px; animation-delay: ${i * 0.05}s;">
-                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                   <span style="font-size:0.75rem; font-weight:bold; color:var(--primary); text-transform:uppercase;"># ${s.kategori}</span>
-                   <span>${scoreTxt}</span>
-                 </div>
-                 <div style="color:white; font-size:0.9rem; font-weight:bold; margin-bottom:6px; line-height:1.3;">
-                   "${s.judul}"
-                 </div>
-                 <div style="display:flex; justify-content:space-between; align-items:center; border-top: 1px dashed #3f3f46; padding-top: 4px;">
-                   <span style="font-size:0.75rem; font-weight:bold;">${statusIco} <span style="color:#d4d4d8;">${isSelesai ? 'Selesai' : 'Proses'}</span></span>
-                   <span style="color:#71717a; font-size:0.7rem;">${s.tgl}</span>
-                 </div>
-               </div>`;
-           });
-       }
-       document.getElementById('userListBox').innerHTML = html;
-    }
+               let cleanId = String(s.id || s.ID || s.no_ss || '').trim();
+               let detailUrl = cleanId 
+               ? `https://script.google.com/macros/s/AKfycbwQGs9fa1VDlmZliN3SVjwMZW-V-MMDyusq7J40FpT68KSgLSPT8k3VE6dL4xUgTAD-/exec?id=${encodeURIComponent(cleanId)}` 
+               : "#";
+           
+           html += `
+           <div class="list-item animate-fade-up" style="background: rgba(0,0,0,0.3); border: 1px solid #3f3f46; margin-bottom: 8px; padding: 10px; border-radius: 10px; animation-delay: ${i * 0.05}s;">
+             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+               <span style="font-size:0.75rem; font-weight:bold; color:var(--primary); text-transform:uppercase;"># ${s.kategori}</span>
+               <div style="display:flex; align-items:center; gap:8px;">
+                 <span>${scoreTxt}</span>
+                 ${cleanId ? `<a href="${detailUrl}" target="_blank" rel="noopener noreferrer" title="Lihat Detail Form SS" style="text-decoration: none; font-size:1.1rem; background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:6px;">👁️</a>` : ''}
+               </div>
+             </div>
+             <div style="color:white; font-size:0.9rem; font-weight:bold; margin-bottom:6px; line-height:1.3;">
+               "${s.judul}"
+             </div>
+             <div style="display:flex; justify-content:space-between; align-items:center; border-top: 1px dashed #3f3f46; padding-top: 4px;">
+               <span style="font-size:0.75rem; font-weight:bold;">${statusIco} <span style="color:#d4d4d8;">${isSelesai ? 'Selesai' : 'Proses'}</span></span>
+               <span style="color:#71717a; font-size:0.7rem;">${s.tgl}</span>
+             </div>
+           </div>`;
+       });
+   }
+   document.getElementById('userListBox').innerHTML = html;
+}
 
     // SIHIR BALIK KE LEADERBOARD
     function closeUserList() {
@@ -1381,9 +1389,12 @@
                 <div class="text-ellipsis">
                   " ${w.judul || 'Ide Rahasia'} "
                 </div>
-                <div style="border-top: 1px dashed #3f3f46; padding-top: 3px; font-size: 0.75rem; color: #a1a1aa; display: flex; justify-content: space-between; margin-top:auto;">
-                  <span>Potensi CR:</span>
-                  <span style="color: var(--accent); font-weight: bold;">Rp ${formattedCR}</span>
+                <div style="border-top: 1px dashed #3f3f46; padding-top: 3px; font-size: 0.75rem; color: #a1a1aa; display: flex; justify-content: space-between; align-items:center; margin-top:auto;">
+                  <div>
+                     <span>Potensi CR:</span><br>
+                     <span style="color: var(--accent); font-weight: bold;">Rp ${formattedCR}</span>
+                  </div>
+                  ${w.id && w.id !== 'N/A' ? `<a href="https://script.google.com/macros/s/AKfycbwQGs9fa1VDlmZliN3SVjwMZW-V-MMDyusq7J40FpT68KSgLSPT8k3VE6dL4xUgTAD-/exec?id=${encodeURIComponent(w.id)}" target="_blank" title="Buka Detail SS" style="background: rgba(139, 92, 246, 0.3); color: white; padding: 4px 8px; border-radius: 6px; text-decoration: none; display:flex; align-items:center; gap:4px; font-weight:bold;"><span style="font-size:1.1rem;">👁️</span> View</a>` : ''}
                 </div>
               </div>
 
